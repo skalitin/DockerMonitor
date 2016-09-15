@@ -1,3 +1,3 @@
-docker build -t rmaz/dockermonitor -f Dockerfile ..
+docker build -t rmaz/dockermonitor -f Dockerfile .
 
 

@@ -16,13 +16,13 @@ async def handle_networks(request):
 
 
 def get_containers():
-    api = Client(base_url='tcp://127.0.0.1:2375')
+    api = Client(base_url='tcp://172.17.0.1:4242')
     containers = api.containers()
     return containers
 
 
 def get_networks():
-    api = Client(base_url='tcp://127.0.0.1:2375')
+    api = Client(base_url='tcp://172.17.0.1:4242')
     networks = api.networks()
     return networks
 
