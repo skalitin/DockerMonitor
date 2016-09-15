@@ -1,2 +1,9 @@
-__pycache__/
+docker.service
+.Ds_store
 *.swp
+*.swo
+*.zip
+*.pyc
+cover
+*.log
+.idea
