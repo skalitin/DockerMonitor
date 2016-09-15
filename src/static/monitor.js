@@ -1,11 +1,14 @@
-function processResponse(containers) {
+function processResponse(data) {
+    var containers = data.containers;
+    var networks = data.networks;
+    
     var nodes = [];
     var edges = [];
 
     for (var i = 0; i < containers.length; i++) {
         var container = containers[i];
 
-      var details =
+        var details =
             "<b>Name:</b> " + container.Names[0] +
             "<br><b>Status:</b> " + container.Status +
             "<br><b>State:</b> " + container.State +
@@ -20,6 +23,33 @@ function processResponse(containers) {
         nodes.push(node);
     }
 
+    for (var i = 0; i < networks.length; i++) {
+        var network = networks[i];
+        var containerIds = Object.keys(network.Containers);
+
+        for (var j = 0; j < containerIds.length; j++) {
+            var containerId = containerIds[j];
+            
+            for (var k = j + 1; k < containerIds.length; k++) {
+                var edge = {
+                    from: containerIds[j],
+                    to: containerIds[k],
+                    label: network.Name,
+                    font: {
+                            size: 9,
+                            align: 'bottom',
+                            color: 'gray',
+                            strokeWidth: 0,
+                        }
+                };
+                
+                if(network.Name != 'bridge') {
+                    edges.push(edge);
+                }
+            }
+        }
+    }
+    
     return {
         nodes: nodes,
         edges: edges
@@ -29,12 +59,12 @@ function processResponse(containers) {
 function refresh() {
     $.ajax({
         type: 'GET',
-        url: "/containers",
+        url: "/data",
         dataType: 'json',
         async: true,
-        success: function (containers) {
-            var data = processResponse(containers);
-            window.network.setData(data);
+        success: function (data) {
+            var network = processResponse(data);
+            window.network.setData(network);
         }
     });
 }
