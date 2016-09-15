@@ -17,7 +17,10 @@ function processResponse(data) {
         var node = {
             id: container.Id,
             label: container.Names[0],
-            title: details
+            title: details,
+            color: Please.make_color({
+                from_hash: container.Names[0]
+            })
         };
 
         nodes.push(node);
